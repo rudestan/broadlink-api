@@ -1,11 +1,13 @@
 <?php
 
-namespace TPG\Broadlink\Device;
+namespace DS\Broadlink\Device;
 
+use DS\Broadlink\Cipher\Cipher;
+use DS\Broadlink\Cipher\CipherInterface;
 
-use TPG\Broadlink\Cipher\Cipher;
-use TPG\Broadlink\Cipher\CipherInterface;
-
+/**
+ * @TODO: Remove for simplicity
+ */
 final class BroadcastDevice implements DeviceInterface
 {
     public function getMac(): string
@@ -20,11 +22,11 @@ final class BroadcastDevice implements DeviceInterface
 
     public function getPort(): int
     {
-        return 80;
+        return self::DEFAULT_PORT;
     }
 
     public function getCipher(): CipherInterface
     {
-        return new Cipher(self::BASE_KEY,self::BASE_IV);
+        return new Cipher(self::BASE_KEY, self::BASE_IV);
     }
 }

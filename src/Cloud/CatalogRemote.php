@@ -1,15 +1,19 @@
 <?php
 
-namespace TPG\Broadlink\Cloud;
-
+namespace DS\Broadlink\Cloud;
 
 class CatalogRemote
 {
     private $path;
+
     private $type;
+
     private $factory;
+
     private $model;
+
     private $desc;
+
     /**
      * @var Catalog
      */
@@ -17,23 +21,24 @@ class CatalogRemote
 
     public function __construct(Catalog $catalog)
     {
-
         $this->catalog = $catalog;
     }
 
-    public static function createFromArray(Catalog $catalog, array $data):CatalogRemote{
+    public static function createFromArray(Catalog $catalog, array $data): CatalogRemote
+    {
         $remote = new CatalogRemote($catalog);
+
         foreach($data as $key => $val) {
             if(property_exists($remote,$key)) {
-                $remote->$key = $val;
+                $remote->{$key} = $val;
             }
         }
+
         return $remote;
     }
 
-    public function download(){
+    public function download()
+    {
         $this->catalog->download($this->path);
     }
-
-
 }

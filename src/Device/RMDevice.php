@@ -1,15 +1,14 @@
 <?php
 
-namespace TPG\Broadlink\Device;
+namespace DS\Broadlink\Device;
 
-
-use TPG\Broadlink\Command\GetSensorsCommand;
-use TPG\Broadlink\Protocol;
+use DS\Broadlink\Command\GetSensorsCommand;
+use DS\Broadlink\Protocol;
 
 class RMDevice extends AuthenticatedDevice
 {
-
-    public function getTemperature(){
+    public function getTemperature()
+    {
         return Protocol::create()->executeCommand(new GetSensorsCommand($this))->current()['temperature'];
     }
 }

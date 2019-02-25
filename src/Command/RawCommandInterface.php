@@ -1,9 +1,8 @@
 <?php
 
-namespace TPG\Broadlink\Command;
+namespace DS\Broadlink\Command;
 
-
-use TPG\Broadlink\Packet\Packet;
+use DS\Broadlink\Packet\Packet;
 
 interface RawCommandInterface extends CommandInterface
 {

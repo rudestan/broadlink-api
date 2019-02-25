@@ -1,10 +1,10 @@
 <?php
-namespace TPG\Broadlink\Command;
 
+namespace DS\Broadlink\Command;
 
-use TPG\Broadlink\Packet\Packet;
+use DS\Broadlink\Packet\Packet;
 
 interface EncryptedCommandInterface extends CommandInterface
 {
-    public function getPayload():Packet;
+    public function getPayload(): Packet;
 }

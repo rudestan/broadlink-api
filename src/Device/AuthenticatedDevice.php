@@ -1,27 +1,28 @@
 <?php
 
-namespace TPG\Broadlink\Device;
+namespace DS\Broadlink\Device;
 
-
-use TPG\Broadlink\Broadlink;
-use TPG\Broadlink\Cipher\Cipher;
-use TPG\Broadlink\Cipher\CipherInterface;
+use DS\Broadlink\Broadlink;
+use DS\Broadlink\Cipher\Cipher;
+use DS\Broadlink\Cipher\CipherInterface;
 
 class AuthenticatedDevice implements DeviceInterface
 {
-
     /**
      * @var DeviceInterface
      */
     private $device;
+
     /**
      * @var array
      */
     private $key;
+
     /**
      * @var array
      */
     private $vector;
+
     /**
      * @var int
      */
@@ -50,27 +51,23 @@ class AuthenticatedDevice implements DeviceInterface
         return $this->device->getPort();
     }
 
-    public function getDevice(){
+    public function getDevice(): DeviceInterface
+    {
         return $this->device;
     }
 
     public function getCipher(): CipherInterface
     {
-        return new Cipher($this->key,$this->vector);
+        return new Cipher($this->key, $this->vector);
     }
 
-    public function getSessionId(){
+    public function getSessionId(): int
+    {
         return $this->sessionId;
     }
 
-    /**
-     * Authenticate device
-     * @param string $ip device ip address
-     * @param string $mac device mac address
-     * @return static
-     */
-    public static function authenticate(string $ip,string $mac) {
-        return Broadlink::authenticate(new Device($ip,$mac),static::class);
+    public static function authenticate(string $ip, string $mac): AuthenticatedDevice
+    {
+        return Broadlink::authenticate(new Device($ip, $mac), static::class);
     }
-
 }

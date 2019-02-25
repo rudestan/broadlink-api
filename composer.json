@@ -1,18 +1,22 @@
 {
-    "name": "thephpguys/broadlink",
-    "description": "PHP7 Broadlink API library",
+    "name": "rudestan/broadlink",
+    "description": "Broadlink API library (PHP7)",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Vadim Zotov",
-            "email": "vadim@thephpguys.com"
+            "name": "Stan Drozdov",
+            "email": "rudestan@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-openssl": "*",
+        "ext-sockets": "*",
+        "ext-json": "*"
+    },
     "autoload": {
       "psr-4": {
-        "TPG\\Broadlink\\": "src/"
+        "DS\\Broadlink\\": "src/"
       }
     }
 }

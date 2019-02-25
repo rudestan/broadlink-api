@@ -1,13 +1,12 @@
 <?php
 
-namespace TPG\Broadlink\Command;
+namespace DS\Broadlink\Command;
 
-
-use TPG\Broadlink\Device\AuthenticatedDevice;
-use TPG\Broadlink\Device\Device;
-use TPG\Broadlink\Device\DeviceInterface;
-use TPG\Broadlink\Packet\Packet;
-use TPG\Broadlink\Packet\PacketBuilder;
+use DS\Broadlink\Device\AuthenticatedDevice;
+use DS\Broadlink\Device\Device;
+use DS\Broadlink\Device\DeviceInterface;
+use DS\Broadlink\Packet\Packet;
+use DS\Broadlink\Packet\PacketBuilder;
 
 class GetSensorsCommand implements EncryptedCommandInterface
 {
@@ -18,7 +17,6 @@ class GetSensorsCommand implements EncryptedCommandInterface
 
     public function __construct(AuthenticatedDevice $device)
     {
-
         $this->device = $device;
     }
 
@@ -27,11 +25,12 @@ class GetSensorsCommand implements EncryptedCommandInterface
         return CommandInterface::COMMAND_GET_INFO;
     }
 
-    public function handleResponse(Packet $packet):array
+    public function handleResponse(Packet $packet): array
     {
         $pb = new PacketBuilder($packet);
+
         return [
-                'temperature'=> $pb->readFloat16(0x4)
+            'temperature'=> $pb->readFloat16(0x4)
         ];
     }
 
@@ -44,5 +43,4 @@ class GetSensorsCommand implements EncryptedCommandInterface
     {
         return PacketBuilder::create(0x16)->writeByte(0x00,0x01)->getPacket();
     }
-
 }

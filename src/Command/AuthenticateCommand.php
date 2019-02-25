@@ -1,12 +1,11 @@
 <?php
 
-namespace TPG\Broadlink\Command;
+namespace DS\Broadlink\Command;
 
-
-use TPG\Broadlink\Device\AuthenticatedDevice;
-use TPG\Broadlink\Device\DeviceInterface;
-use TPG\Broadlink\Packet\Packet;
-use TPG\Broadlink\Packet\PacketBuilder;
+use DS\Broadlink\Device\AuthenticatedDevice;
+use DS\Broadlink\Device\DeviceInterface;
+use DS\Broadlink\Packet\Packet;
+use DS\Broadlink\Packet\PacketBuilder;
 
 class AuthenticateCommand implements EncryptedCommandInterface
 {
@@ -14,6 +13,7 @@ class AuthenticateCommand implements EncryptedCommandInterface
      * @var DeviceInterface
      */
     private $device;
+
     /**
      * @var string
      */
@@ -21,7 +21,6 @@ class AuthenticateCommand implements EncryptedCommandInterface
 
     public function __construct(DeviceInterface $device, $authenticatedClass = AuthenticatedDevice::class)
     {
-
         $this->device = $device;
         $this->authenticatedClass = $authenticatedClass;
     }
@@ -36,17 +35,17 @@ class AuthenticateCommand implements EncryptedCommandInterface
         return Packet::createZeroPacket(0x50);
     }
 
-    public function handleResponse(Packet $packet):AuthenticatedDevice
+    public function handleResponse(Packet $packet): AuthenticatedDevice
     {
         $packetBuilder = new PacketBuilder($packet);
         $sessionId = $packetBuilder->readInt32(0x00);
         $key = array_reverse($packetBuilder->readBytes(0x04,16));
-        return new $this->authenticatedClass($this->device,$sessionId,$key);
+
+        return new $this->authenticatedClass($this->device, $sessionId, $key);
     }
 
     public function getDevice(): DeviceInterface
     {
         return $this->device;
     }
-
 }

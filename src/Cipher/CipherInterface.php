@@ -1,12 +1,12 @@
 <?php
 
-namespace TPG\Broadlink\Cipher;
+namespace DS\Broadlink\Cipher;
 
-
-use TPG\Broadlink\Packet\Packet;
+use DS\Broadlink\Packet\Packet;
 
 interface CipherInterface
 {
-    public function encrypt(Packet $data):Packet;
-    public function decrypt(Packet $data):Packet;
+    public function encrypt(Packet $data): Packet;
+
+    public function decrypt(Packet $data): Packet;
 }

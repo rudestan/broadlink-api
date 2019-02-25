@@ -1,24 +1,26 @@
 <?php
 
-namespace TPG\Broadlink\Device;
+namespace DS\Broadlink\Device;
 
+use DS\Broadlink\Cipher\Cipher;
+use DS\Broadlink\Cipher\CipherInterface;
 
-use TPG\Broadlink\Cipher\Cipher;
-use TPG\Broadlink\Cipher\CipherInterface;
-
+/**
+ * @TODO: Remove for simplicity
+ */
 class Device implements DeviceInterface
 {
-
     /**
      * @var string
      */
     private $ip;
+
     /**
      * @var string
      */
     private $mac;
 
-    public function __construct(string $ip,string $mac)
+    public function __construct(string $ip, string $mac)
     {
         $this->ip = $ip;
         $this->mac = $mac;
@@ -41,10 +43,6 @@ class Device implements DeviceInterface
 
     public function getCipher(): CipherInterface
     {
-        return new Cipher(self::BASE_KEY,self::BASE_IV);
+        return new Cipher(self::BASE_KEY, self::BASE_IV);
     }
-
-
-
-
 }

@@ -7,29 +7,37 @@ use DS\Broadlink\Command\DiscoverCommand;
 use DS\Broadlink\Device\AuthenticatedDevice;
 use DS\Broadlink\Device\DeviceInterface;
 
-class Broadlink
+class BroadlinkApiClient
 {
-    public static function discover(): array
+    /**
+     * @var Protocol
+     */
+    private $protocol;
+
+    public function __construct()
     {
-        $protocol = Protocol::create();
+        $this->protocol = new Protocol();
+    }
+
+    public function discover(): array
+    {
         $discoverCommand = new DiscoverCommand();
         $devices = [];
 
-        foreach($protocol->executeCommand($discoverCommand) as $device){
+        foreach($this->protocol->executeCommand($discoverCommand) as $device){
             $devices[] = $device;
         }
 
         return $devices;
     }
 
-    public static function authenticate(
+    public function authenticate(
         DeviceInterface $device,
         $authenticatedClass = AuthenticatedDevice::class
     ): AuthenticatedDevice
     {
-        $protocol = Protocol::create();
-        $discoverCommand = new AuthenticateCommand($device,$authenticatedClass);
+        $discoverCommand = new AuthenticateCommand($device, $authenticatedClass);
 
-        return $protocol->executeCommand($discoverCommand)->current();
+        return $this->protocol->executeCommand($discoverCommand)->current();
     }
 }

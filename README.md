@@ -1,53 +1,16 @@
 # Broadlink API PHP7 library 
 
 A PHP 7 library for controlling IR and Wireless 433Mhz controllers from [Broadlink](http://www.ibroadlink.com/rm/). 
-The protocol refer to [mjg59/python-broadlink](https://github.com/mjg59/python-broadlink/blob/master/README.md)
+The protocol refer to: [mjg59/python-broadlink](https://github.com/mjg59/python-broadlink/blob/master/README.md)
 
-Currently supported only RM Devices
+Original code refer to: [ThePHPGuys/broadlink](https://github.com/ThePHPGuys/broadlink).
 
-Discover all devices in network:
-```php
-echo json_encode(\TPG\Broadlink\Broadlink::discover());
-```
-Will produce:
-```json
-[
-    {
-        "model": "RM2 Pro Plus",
-        "name": "Living Room",
-        "ip": "192.168.88.15",
-        "mac": "34:ea:cc:cc:cc:bc",
-        "id": "10026"
-        
-    },
-    {
-        "model": "RM2 Pro Plus",
-        "name": "Sleeping Room",
-        "ip": "192.168.88.14",
-        "mac": "34:ea:cc:cc:cc:bf",
-        "id": "10026"
-    }
-]
-```
+### What are the differences with original implementation from "ThePHPGuys"?
 
-Use already known device:
-```php
-\TPG\Broadlink\Device\RMDevice::authenticate('192.168.88.15','34:ea:cc:cc:cc:bc')->getTemperature()
-```
+* Added full support of RM3 Pro Plus (learning mode, receiving and sending commands), so it became fully usable withing the api
+* Code was a bit refactored and improved (without touching major parts)
+* Code was reformatted and cleaned a bit to be able to easily understand the flow
 
-### Draft implementation of Broadlink Catalog Cloud
+### Usage
 
-```php
-use TPG\Broadlink\Cloud\Catalog;
-
-$catalog = new Catalog('/path/where/you/want/to/save/remotes');
-$remotes = $catalog->search('Samsung');
-
-//Download first remote
-print_r($remotes[0]->download());
-
-//Or download all found remotes
-foreach($remotes as $remote){
-    $remote->download();
-}
-```
+Docs will be updated soon
