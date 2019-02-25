@@ -1,13 +1,13 @@
 <?php
 
-namespace DS\Broadlink;
+namespace BroadlinkApi;
 
-use DS\Broadlink\Command\AuthenticateCommand;
-use DS\Broadlink\Command\DiscoverCommand;
-use DS\Broadlink\Device\AuthenticatedDevice;
-use DS\Broadlink\Device\DeviceInterface;
+use BroadlinkApi\Command\AuthenticateCommand;
+use BroadlinkApi\Command\DiscoverCommand;
+use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Device\DeviceInterface;
 
-class BroadlinkApiClient
+class BroadlinkApi
 {
     /**
      * @var Protocol

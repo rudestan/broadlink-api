@@ -1,8 +1,8 @@
 <?php
 
-namespace DS\Broadlink\Cipher;
+namespace BroadlinkApi\Cipher;
 
-use DS\Broadlink\Packet\Packet;
+use BroadlinkApi\Packet\Packet;
 
 interface CipherInterface
 {

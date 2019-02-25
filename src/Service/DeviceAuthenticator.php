@@ -1,13 +1,13 @@
 <?php
 
-namespace DS\Broadlink\Service;
+namespace BroadlinkApi\Service;
 
-use DS\Broadlink\Device\DeviceInterface;
-use DS\Broadlink\Device\AuthenticatedDevice;
-use DS\Broadlink\Command\AuthenticateCommand;
-use DS\Broadlink\Protocol;
-use DS\Broadlink\Device\RMProPlusDevice;
-use DS\Broadlink\Device\RMDevice;
+use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Command\AuthenticateCommand;
+use BroadlinkApi\Device\NetDeviceInterface;
+use BroadlinkApi\Protocol;
+use BroadlinkApi\Device\RMProPlusDevice;
+use BroadlinkApi\Device\RMDevice;
 
 class DeviceAuthenticator
 {
@@ -22,7 +22,7 @@ class DeviceAuthenticator
     }
 
     public function authenticate(
-        DeviceInterface $device,
+        NetDeviceInterface $device,
         $authenticatedClass = AuthenticatedDevice::class
     ): AuthenticatedDevice
     {

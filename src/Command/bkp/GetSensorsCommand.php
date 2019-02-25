@@ -1,12 +1,12 @@
 <?php
 
-namespace DS\Broadlink\Command;
+namespace BroadlinkApi\Command;
 
-use DS\Broadlink\Device\AuthenticatedDevice;
-use DS\Broadlink\Device\Device;
-use DS\Broadlink\Device\DeviceInterface;
-use DS\Broadlink\Packet\Packet;
-use DS\Broadlink\Packet\PacketBuilder;
+use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Device\Device;
+use BroadlinkApi\Device\DeviceInterface;
+use BroadlinkApi\Packet\Packet;
+use BroadlinkApi\Packet\PacketBuilder;
 
 class GetSensorsCommand implements EncryptedCommandInterface
 {

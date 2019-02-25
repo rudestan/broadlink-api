@@ -1,6 +1,6 @@
 <?php
 
-namespace DS\Broadlink\Packet;
+namespace BroadlinkApi\Packet;
 
 class PacketBuilder
 {

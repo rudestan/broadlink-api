@@ -1,9 +1,9 @@
 <?php
 
-namespace DS\Broadlink;
+namespace BroadlinkApi;
 
-use DS\Broadlink\Device\DeviceInterface;
-use DS\Broadlink\Packet\Packet;
+use BroadlinkApi\Device\NetDeviceInterface;
+use BroadlinkApi\Packet\Packet;
 
 class Connection
 {
@@ -26,12 +26,12 @@ class Connection
 
     public function sendPacketToDeviceArray(
         Packet $packet,
-        DeviceInterface $device,
+        NetDeviceInterface $device,
         int $timeout = self::DEFAULT_TIMEOUT
     ): \Generator {
         $this->open();
 
-        socket_sendto($this->socket, (string)$packet, $packet->getSize(), 0, $device->getIP(), $device->getPort());
+        socket_sendto($this->socket, (string)$packet, $packet->getSize(), 0, $device->getIp(), $device->getPort());
         socket_set_option($this->socket, SOL_SOCKET, SO_RCVTIMEO, ['sec'=> $timeout, 'usec' => 0]);
 
         while($response = @socket_read($this->socket, 1024, 0)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace DS\Broadlink\Cloud;
+namespace BroadlinkApi\Cloud;
 
 class CatalogRemote
 {

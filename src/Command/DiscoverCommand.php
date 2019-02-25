@@ -1,14 +1,13 @@
 <?php
 
-namespace DS\Broadlink\Command;
+namespace BroadlinkApi\Command;
 
-use DS\Broadlink\Device\BroadcastDevice;
-use DS\Broadlink\Device\Device;
-use DS\Broadlink\Device\DeviceInterface;
-use DS\Broadlink\Device\DiscoveredDevice;
-use DS\Broadlink\Packet\Packet;
-use DS\Broadlink\Packet\PacketBuilder;
-use DS\Broadlink\Utils;
+use BroadlinkApi\Device\NetDevice;
+use BroadlinkApi\Device\DiscoveredDevice;
+use BroadlinkApi\Device\NetDeviceInterface;
+use BroadlinkApi\Packet\Packet;
+use BroadlinkApi\Packet\PacketBuilder;
+use BroadlinkApi\Utils;
 
 class DiscoverCommand implements RawCommandInterface
 {
@@ -18,12 +17,14 @@ class DiscoverCommand implements RawCommandInterface
     private $localIp;
 
     /**
-     * @var BroadcastDevice
+     * @var NetDevice
      */
     private $device;
 
     public function __construct(string $localIp = null)
     {
+        $this->device = new NetDevice();
+
         if($localIp === null) {
             $this->localIp = $this->getLocalIp();
         } else {
@@ -33,8 +34,6 @@ class DiscoverCommand implements RawCommandInterface
 
             $this->localIp = $localIp;
         }
-
-        $this->device = new BroadcastDevice();
     }
 
     public function getCommandId(): int
@@ -80,7 +79,7 @@ class DiscoverCommand implements RawCommandInterface
         $mac = vsprintf('%02x:%02x:%02x:%02x:%02x:%02x',$packetBuilder->readBytes(0x3a,6));
         $name =  trim(implode(array_map('\chr',array_reverse($packetBuilder->readBytes(0x40,60)))));
 
-        return new DiscoveredDevice(new Device($ip, $mac), $deviceId, $name);
+        return new DiscoveredDevice($ip, $mac, $deviceId, $name);
     }
 
     private function getLocalIp()
@@ -94,7 +93,7 @@ class DiscoverCommand implements RawCommandInterface
         return $localIp;
     }
 
-    public function getDevice(): DeviceInterface
+    public function getDevice(): NetDeviceInterface
     {
         return $this->device;
     }

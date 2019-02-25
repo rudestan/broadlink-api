@@ -1,6 +1,6 @@
 <?php
 
-namespace DS\Broadlink\Device;
+namespace BroadlinkApi\Device;
 
 class RMProPlusDevice extends AuthenticatedDevice
 {

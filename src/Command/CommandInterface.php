@@ -1,9 +1,9 @@
 <?php
 
-namespace DS\Broadlink\Command;
+namespace BroadlinkApi\Command;
 
-use DS\Broadlink\Device\DeviceInterface;
-use DS\Broadlink\Packet\Packet;
+use BroadlinkApi\Device\NetDeviceInterface;
+use BroadlinkApi\Packet\Packet;
 
 interface CommandInterface
 {
@@ -17,5 +17,5 @@ interface CommandInterface
 
     public function handleResponse(Packet $packet);
 
-    public function getDevice(): DeviceInterface;
+    public function getDevice(): NetDeviceInterface;
 }

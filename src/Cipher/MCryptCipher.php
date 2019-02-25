@@ -1,9 +1,9 @@
 <?php
 
-namespace DS\Broadlink\Cipher;
+namespace BroadlinkApi\Cipher;
 
-use DS\Broadlink\Packet\Packet;
-use DS\Broadlink\Utils;
+use BroadlinkApi\Packet\Packet;
+use BroadlinkApi\Utils;
 
 class MCryptCipher implements CipherInterface
 {

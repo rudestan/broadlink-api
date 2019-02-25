@@ -1,12 +1,12 @@
 <?php
 
-namespace DS\Broadlink;
+namespace BroadlinkApi;
 
-use DS\Broadlink\Command\CommandInterface;
-use DS\Broadlink\Command\EncryptedCommandInterface;
-use DS\Broadlink\Command\RawCommandInterface;
-use DS\Broadlink\Device\AuthenticatedDevice;
-use DS\Broadlink\Packet\PacketBuilder;
+use BroadlinkApi\Command\CommandInterface;
+use BroadlinkApi\Command\EncryptedCommandInterface;
+use BroadlinkApi\Command\RawCommandInterface;
+use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Packet\PacketBuilder;
 
 class Protocol
 {
@@ -30,7 +30,7 @@ class Protocol
         $device = $command->getDevice();
         $cipher = $device->getCipher();
 
-        if($command instanceof RawCommandInterface) {
+        if ($command instanceof RawCommandInterface) {
             $rootPacketBuilder = new PacketBuilder($command->getPacket());
 
         } elseif ($command instanceof EncryptedCommandInterface) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace DS\Broadlink\Packet;
+namespace BroadlinkApi\Packet;
 
-use DS\Broadlink\Utils;
+use BroadlinkApi\Utils;
 
 class Packet extends \SplFixedArray
 {

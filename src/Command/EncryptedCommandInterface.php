@@ -1,8 +1,8 @@
 <?php
 
-namespace DS\Broadlink\Command;
+namespace BroadlinkApi\Command;
 
-use DS\Broadlink\Packet\Packet;
+use BroadlinkApi\Packet\Packet;
 
 interface EncryptedCommandInterface extends CommandInterface
 {

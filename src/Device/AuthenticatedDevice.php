@@ -1,10 +1,10 @@
 <?php
 
-namespace DS\Broadlink\Device;
+namespace BroadlinkApi\Device;
 
-use DS\Broadlink\Broadlink;
-use DS\Broadlink\Cipher\Cipher;
-use DS\Broadlink\Cipher\CipherInterface;
+use BroadlinkApi\Broadlink;
+use BroadlinkApi\Cipher\Cipher;
+use BroadlinkApi\Cipher\CipherInterface;
 
 class AuthenticatedDevice implements DeviceInterface
 {

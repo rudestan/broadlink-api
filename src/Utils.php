@@ -1,6 +1,6 @@
 <?php
 
-namespace DS\Broadlink;
+namespace BroadlinkApi;
 
 class Utils
 {

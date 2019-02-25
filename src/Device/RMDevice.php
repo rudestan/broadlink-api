@@ -1,11 +1,11 @@
 <?php
 
-namespace DS\Broadlink\Device;
+namespace BroadlinkApi\Device;
 
-use DS\Broadlink\Command\GetSensorsCommand;
-use DS\Broadlink\Protocol;
+use BroadlinkApi\Command\GetSensorsCommand;
+use BroadlinkApi\Protocol;
 
-class RMDevice extends AuthenticatedDevice
+class RMDevice extends IdentifiedDevice
 {
     public function getTemperature()
     {

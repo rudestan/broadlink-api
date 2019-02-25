@@ -1,16 +1,16 @@
 <?php
 
-namespace DS\Broadlink\Command;
+namespace BroadlinkApi\Command;
 
-use DS\Broadlink\Device\AuthenticatedDevice;
-use DS\Broadlink\Device\DeviceInterface;
-use DS\Broadlink\Packet\Packet;
-use DS\Broadlink\Packet\PacketBuilder;
+use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Device\NetDeviceInterface;
+use BroadlinkApi\Packet\Packet;
+use BroadlinkApi\Packet\PacketBuilder;
 
 class AuthenticateCommand implements EncryptedCommandInterface
 {
     /**
-     * @var DeviceInterface
+     * @var NetDeviceInterface
      */
     private $device;
 
@@ -19,7 +19,7 @@ class AuthenticateCommand implements EncryptedCommandInterface
      */
     private $authenticatedClass;
 
-    public function __construct(DeviceInterface $device, $authenticatedClass = AuthenticatedDevice::class)
+    public function __construct(NetDeviceInterface $device, $authenticatedClass = AuthenticatedDevice::class)
     {
         $this->device = $device;
         $this->authenticatedClass = $authenticatedClass;

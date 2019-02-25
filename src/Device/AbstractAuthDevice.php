@@ -5,49 +5,60 @@ namespace BroadlinkApi\Device;
 use BroadlinkApi\Cipher\CipherInterface;
 use BroadlinkApi\Cipher\Cipher;
 
-/**
- * @TODO:
- * - Remove (BroadcastDevice.php, Device.php)
- * - Leave only DiscoveredDevice.php, AuthenticatedDevice.php, (all extended)
- * - Remove unnecessary nested passing of device references in methods
- * - Refactor workflow as follows:
- *      1) After discovering: DiscoveredDevice[]
- *      2) After authentication of each device: AuthenticatedDevice[]|Corresponding Extended Class[]
- */
-class IdentifiedDevice implements IdentifiedDeviceInterface
+abstract class AbstractAuthDevice implements IdentifiedDeviceInterface
 {
     /**
      * @var int
      */
-    private $deviceId;
+    protected $deviceId;
 
     /**
      * @var string
      */
-    private $ip;
+    protected $ip;
 
     /**
      * @var string
      */
-    private $mac;
+    protected $mac;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $model;
+    protected $model;
 
-    public function __construct(string $ip, string $mac, int $deviceId, string $name, string $model)
-    {
+    /**
+     * @var int
+     */
+    protected $sessionId;
+
+    /**
+     * @var CipherInterface
+     */
+    protected $cipher;
+
+    public function __construct(
+        string $ip,
+        string $mac,
+        int $deviceId,
+        string $name,
+        string $model,
+        int $sessionId,
+        array $key,
+        array $vector = self::BASE_IV
+    ) {
         $this->ip = $ip;
         $this->mac = $mac;
         $this->deviceId = $deviceId;
         $this->name = $name;
         $this->model = $model;
+        $this->sessionId = $sessionId;
+        $this->cipher = new Cipher($key, $vector);
     }
 
     public function getIp(): string
@@ -82,6 +93,6 @@ class IdentifiedDevice implements IdentifiedDeviceInterface
 
     public function getCipher(): CipherInterface
     {
-        return new Cipher(self::BASE_KEY, self::BASE_IV);
+        return $this->cipher;
     }
 }
