@@ -16,7 +16,7 @@
     },
     "autoload": {
       "psr-4": {
-        "DS\\Broadlink\\": "src/"
+        "BroadlinkApi\\": "src/"
       }
     }
 }
