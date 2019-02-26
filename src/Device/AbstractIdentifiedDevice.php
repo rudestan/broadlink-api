@@ -2,18 +2,14 @@
 
 namespace BroadlinkApi\Device;
 
-use BroadlinkApi\Dto\AuthDataDto;
+use BroadlinkApi\Protocol;
 use BroadlinkApi\Cipher\CipherInterface;
 use BroadlinkApi\Cipher\Cipher;
-use BroadlinkApi\Command\AuthenticateCommand;
-use BroadlinkApi\Protocol;
-use BroadlinkApi\Exception\ProtocolException;
-use BroadlinkApi\Service\DeviceFactory;
 
-abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
+abstract class AbstractIdentifiedDevice implements NetDeviceInterface
 {
     /**
-     * @var int
+     * @var int|null
      */
     protected $deviceId;
 
@@ -28,19 +24,14 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
     protected $mac;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $model;
-
-    /**
-     * @var int
-     */
-    protected $sessionId;
 
     /**
      * @var CipherInterface
@@ -52,17 +43,12 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
      */
     protected $protocol;
 
-    /**
-     * @var bool
-     */
-    protected $isAuthenticated = false;
-
     public function __construct(
         string $ip,
         string $mac,
-        int $deviceId,
-        string $name,
-        string $model
+        ?int $deviceId = null,
+        ?string $name = null,
+        ?string $model = null
     ) {
         $this->ip = $ip;
         $this->mac = $mac;
@@ -88,14 +74,14 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         return $this->deviceId;
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
     public function getPort(): int
     {
         return self::DEFAULT_PORT;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function getModel(): string
@@ -103,41 +89,8 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         return $this->model;
     }
 
-    public function getSessionId(): int
-    {
-        return $this->sessionId;
-    }
-
     public function getCipher(): CipherInterface
     {
         return $this->cipher;
-    }
-
-    public function getProtocol(): Protocol
-    {
-        return $this->protocol;
-    }
-
-    public function isAuthenticated(): bool
-    {
-        return $this->isAuthenticated;
-    }
-
-    /**
-     * @throws ProtocolException
-     */
-    public function authenticate()
-    {
-        $this->isAuthenticated = false;
-
-        $authData = $this->protocol
-            ->executeCommand(new AuthenticateCommand($this))
-            ->current();
-
-        if ($authData instanceof AuthDataDto) {
-            $this->cipher = new Cipher($authData->getKey(), self::BASE_IV);
-            $this->sessionId = $authData->getSessionId();
-            $this->isAuthenticated = true;
-        }
     }
 }

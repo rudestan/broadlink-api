@@ -2,7 +2,6 @@
 
 namespace BroadlinkApi\Command;
 
-use BroadlinkApi\Device\NetDevice;
 use BroadlinkApi\Device\NetDeviceInterface;
 use BroadlinkApi\Exception\CommandException;
 use BroadlinkApi\Packet\Packet;

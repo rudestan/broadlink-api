@@ -2,9 +2,9 @@
 
 namespace BroadlinkApi\Service;
 
-use BroadlinkApi\Device\Identified\RMDeviceSensor;
-use BroadlinkApi\Device\IdentifiedDeviceInterface;
-use BroadlinkApi\Device\Identified\RMDevice;
+use BroadlinkApi\Device\Authenticatable\RMDeviceSensor;
+use BroadlinkApi\Device\Authenticatable\RMDevice;
+use BroadlinkApi\Device\AuthenticatableDeviceInterface;
 use BroadlinkApi\Device\UnknownIdentifiedDevice;
 
 class DeviceFactory
@@ -80,7 +80,7 @@ class DeviceFactory
         ]
     ];
 
-    public function create(string $ip, string $mac, int $deviceId, string $name): IdentifiedDeviceInterface
+    public function create(string $ip, string $mac, int $deviceId, string $name): AuthenticatableDeviceInterface
     {
         $class = $this->getDeviceClass($deviceId);
 

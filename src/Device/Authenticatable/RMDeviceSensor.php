@@ -1,9 +1,9 @@
 <?php
 
-namespace BroadlinkApi\Device\Identified;
+namespace BroadlinkApi\Device\Authenticatable;
 
+use BroadlinkApi\Command\Authenticated\GetSensorsCommand;
 use BroadlinkApi\Exception\ProtocolException;
-use BroadlinkApi\Command\GetSensorsCommand;
 
 class RMDeviceSensor extends RMDevice
 {

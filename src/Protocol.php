@@ -5,6 +5,7 @@ namespace BroadlinkApi;
 use BroadlinkApi\Command\CommandInterface;
 use BroadlinkApi\Command\EncryptedCommandInterface;
 use BroadlinkApi\Command\RawCommandInterface;
+use BroadlinkApi\Device\AuthenticatableDeviceInterface;
 use BroadlinkApi\Device\IdentifiedDeviceInterface;
 use BroadlinkApi\Exception\ProtocolException;
 use BroadlinkApi\Packet\PacketBuilder;
@@ -37,7 +38,7 @@ class Protocol
             $rootPacketBuilder->writeInt16(0x28,$this->getPacketId());
             $rootPacketBuilder->writeBytes(0x2a,Utils::getMacAddressArray($device->getMac()));
 
-            if($device instanceof IdentifiedDeviceInterface){
+            if($device instanceof AuthenticatableDeviceInterface && $device->isAuthenticated()){
                 $rootPacketBuilder->writeInt32(0x30, $device->getSessionId());
             }
 

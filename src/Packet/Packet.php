@@ -40,7 +40,7 @@ class Packet extends \SplFixedArray
         return $obj;
     }
 
-    public static function createZeroPacket($size)
+    public static function createZeroPacket(int $size)
     {
         return static::fromArray(array_fill(0,$size,0));
     }
