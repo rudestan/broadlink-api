@@ -2,7 +2,7 @@
 
 namespace BroadlinkApi\Command;
 
-use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Dto\AuthDataDto;
 use BroadlinkApi\Device\NetDeviceInterface;
 use BroadlinkApi\Packet\Packet;
 use BroadlinkApi\Packet\PacketBuilder;
@@ -14,15 +14,9 @@ class AuthenticateCommand implements EncryptedCommandInterface
      */
     private $device;
 
-    /**
-     * @var string
-     */
-    private $authenticatedClass;
-
-    public function __construct(NetDeviceInterface $device, $authenticatedClass = AuthenticatedDevice::class)
+    public function __construct(NetDeviceInterface $device)
     {
         $this->device = $device;
-        $this->authenticatedClass = $authenticatedClass;
     }
 
     public function getCommandId(): int
@@ -35,16 +29,16 @@ class AuthenticateCommand implements EncryptedCommandInterface
         return Packet::createZeroPacket(0x50);
     }
 
-    public function handleResponse(Packet $packet): AuthenticatedDevice
+    public function handleResponse(Packet $packet): AuthDataDto
     {
         $packetBuilder = new PacketBuilder($packet);
         $sessionId = $packetBuilder->readInt32(0x00);
         $key = array_reverse($packetBuilder->readBytes(0x04,16));
 
-        return new $this->authenticatedClass($this->device, $sessionId, $key);
+        return new AuthDataDto($key, $sessionId);
     }
 
-    public function getDevice(): DeviceInterface
+    public function getDevice(): NetDeviceInterface
     {
         return $this->device;
     }

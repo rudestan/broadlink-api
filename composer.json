@@ -1,8 +1,10 @@
 {
     "name": "rudestan/broadlink",
-    "description": "Broadlink API library (PHP7)",
+    "description": "Broadlink RM devices API library",
+    "keywords": ["broadlink", "rmpro", "api"],
     "type": "library",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Stan Drozdov",
@@ -10,6 +12,7 @@
         }
     ],
     "require": {
+        "php": ">=7.2.0",
         "ext-openssl": "*",
         "ext-sockets": "*",
         "ext-json": "*"
@@ -18,5 +21,8 @@
       "psr-4": {
         "BroadlinkApi\\": "src/"
       }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.11.2"
     }
 }

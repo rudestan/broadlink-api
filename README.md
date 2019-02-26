@@ -8,7 +8,7 @@ Original code refer to: [ThePHPGuys/broadlink](https://github.com/ThePHPGuys/bro
 ### What are the differences with original implementation from "ThePHPGuys"?
 
 * Added full support of RM3 Pro Plus (learning mode, receiving and sending commands), so it became fully usable withing the api
-* Code was a bit refactored and improved (without touching major parts)
+* Code was refactored and logic a bit simplified
 * Code was reformatted and cleaned a bit to be able to easily understand the flow
 
 ### Usage

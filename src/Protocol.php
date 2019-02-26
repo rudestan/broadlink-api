@@ -5,7 +5,8 @@ namespace BroadlinkApi;
 use BroadlinkApi\Command\CommandInterface;
 use BroadlinkApi\Command\EncryptedCommandInterface;
 use BroadlinkApi\Command\RawCommandInterface;
-use BroadlinkApi\Device\AuthenticatedDevice;
+use BroadlinkApi\Device\IdentifiedDeviceInterface;
+use BroadlinkApi\Exception\ProtocolException;
 use BroadlinkApi\Packet\PacketBuilder;
 
 class Protocol
@@ -20,11 +21,9 @@ class Protocol
         $this->connection = new Connection();
     }
 
-    public static function create()
-    {
-        return new self();
-    }
-
+    /**
+     * @throws ProtocolException
+     */
     public function executeCommand(CommandInterface $command): \Generator
     {
         $device = $command->getDevice();
@@ -38,8 +37,8 @@ class Protocol
             $rootPacketBuilder->writeInt16(0x28,$this->getPacketId());
             $rootPacketBuilder->writeBytes(0x2a,Utils::getMacAddressArray($device->getMac()));
 
-            if($device instanceof AuthenticatedDevice){
-                $rootPacketBuilder->writeInt32(0x30,$device->getSessionId());
+            if($device instanceof IdentifiedDeviceInterface){
+                $rootPacketBuilder->writeInt32(0x30, $device->getSessionId());
             }
 
             $payload = $command->getPayload();
@@ -48,7 +47,7 @@ class Protocol
             $rootPacketBuilder->setPayloadChecksum($payloadPacketBuilder->calculateChecksum());
             $rootPacketBuilder->attachPayload($encryptedPayload);
         } else {
-            throw new \Exception('Unknown handler '.get_class($command));
+            throw new ProtocolException('Unknown command handler "'. get_class($command). '"');
         }
 
         $rootPacketBuilder->setCommand($command->getCommandId());
@@ -63,7 +62,7 @@ class Protocol
             $responsePacketBuilder = new PacketBuilder($packet);
 
             if($responsePacketBuilder->hasError()) {
-                throw new \Exception('Wrong response packet');
+                throw new ProtocolException('Wrong response packet');
             }
 
             if($command instanceof EncryptedCommandInterface) {

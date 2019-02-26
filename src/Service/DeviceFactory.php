@@ -2,9 +2,10 @@
 
 namespace BroadlinkApi\Service;
 
-use BroadlinkApi\Device\IdentifiedDevice;
+use BroadlinkApi\Device\Identified\RMDeviceSensor;
 use BroadlinkApi\Device\IdentifiedDeviceInterface;
-use BroadlinkApi\Device\RMDevice;
+use BroadlinkApi\Device\Identified\RMDevice;
+use BroadlinkApi\Device\UnknownIdentifiedDevice;
 
 class DeviceFactory
 {
@@ -62,27 +63,39 @@ class DeviceFactory
         0x2722 => self::DEVICE_S1AK,
     ];
 
+    private const RM_DEVICES_CLASS_MAP = [
+        RMDevice::class => [
+            0x279d,
+        ],
+        RMDeviceSensor::class => [
+            0x2712,
+            0x2737,
+            0x273d,
+            0x2783,
+            0x277c,
+            0x272a,
+            0x2787,
+            0x278b,
+            0x278f,
+        ]
+    ];
+
     public function create(string $ip, string $mac, int $deviceId, string $name): IdentifiedDeviceInterface
     {
         $class = $this->getDeviceClass($deviceId);
 
-        if ($class === null) {
-            return new IdentifiedDevice($ip, $mac, $deviceId, $name, $this->getModelByDeviceId($deviceId));
-        }
-
-        return new $class();
+        return new $class($ip, $mac, $deviceId, $name, $this->getModelByDeviceId($deviceId));
     }
 
     private function getDeviceClass(int $deviceId): ?string
     {
-        if (\in_array($deviceId, [
-            0x2712, 0x2737, 0x273d, 0x2783, 0x277c, 0x272a, 0x2787, 0x278b, 0x278f, 0x279d
-        ], true)
-        ) {
-            return RMDevice::class;
+        foreach (self::RM_DEVICES_CLASS_MAP as $class => $mapping) {
+            if (in_array($deviceId, $mapping)) {
+                return $class;
+            }
         }
 
-        return null;
+        return UnknownIdentifiedDevice::class;
     }
 
     private function getModelByDeviceId($deviceId)

@@ -107,7 +107,7 @@ class PacketBuilder
 
     public function readFloat16(int $address): float
     {
-        $bytes = $this->readBytes($address,2);
+        $bytes = $this->readBytes($address, 2);
 
         return $bytes[1] + ($bytes[0] / 10);
     }
@@ -140,7 +140,6 @@ class PacketBuilder
         $this->writeBytes(self::PAYLOAD_ADDRESS, array_reverse($payload->toArray()));
 
         return $this;
-
     }
 
     public function extractPayload(): Packet

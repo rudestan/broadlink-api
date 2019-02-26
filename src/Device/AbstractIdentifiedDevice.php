@@ -2,10 +2,15 @@
 
 namespace BroadlinkApi\Device;
 
+use BroadlinkApi\Dto\AuthDataDto;
 use BroadlinkApi\Cipher\CipherInterface;
 use BroadlinkApi\Cipher\Cipher;
+use BroadlinkApi\Command\AuthenticateCommand;
+use BroadlinkApi\Protocol;
+use BroadlinkApi\Exception\ProtocolException;
+use BroadlinkApi\Service\DeviceFactory;
 
-abstract class AbstractAuthDevice implements IdentifiedDeviceInterface
+abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
 {
     /**
      * @var int
@@ -42,23 +47,30 @@ abstract class AbstractAuthDevice implements IdentifiedDeviceInterface
      */
     protected $cipher;
 
+    /**
+     * @var Protocol
+     */
+    protected $protocol;
+
+    /**
+     * @var bool
+     */
+    protected $isAuthenticated = false;
+
     public function __construct(
         string $ip,
         string $mac,
         int $deviceId,
         string $name,
-        string $model,
-        int $sessionId,
-        array $key,
-        array $vector = self::BASE_IV
+        string $model
     ) {
         $this->ip = $ip;
         $this->mac = $mac;
         $this->deviceId = $deviceId;
         $this->name = $name;
         $this->model = $model;
-        $this->sessionId = $sessionId;
-        $this->cipher = new Cipher($key, $vector);
+        $this->protocol = new Protocol();
+        $this->cipher = new Cipher(self::BASE_KEY, self::BASE_IV);
     }
 
     public function getIp(): string
@@ -91,8 +103,41 @@ abstract class AbstractAuthDevice implements IdentifiedDeviceInterface
         return $this->model;
     }
 
+    public function getSessionId(): int
+    {
+        return $this->sessionId;
+    }
+
     public function getCipher(): CipherInterface
     {
         return $this->cipher;
+    }
+
+    public function getProtocol(): Protocol
+    {
+        return $this->protocol;
+    }
+
+    public function isAuthenticated(): bool
+    {
+        return $this->isAuthenticated;
+    }
+
+    /**
+     * @throws ProtocolException
+     */
+    public function authenticate()
+    {
+        $this->isAuthenticated = false;
+
+        $authData = $this->protocol
+            ->executeCommand(new AuthenticateCommand($this))
+            ->current();
+
+        if ($authData instanceof AuthDataDto) {
+            $this->cipher = new Cipher($authData->getKey(), self::BASE_IV);
+            $this->sessionId = $authData->getSessionId();
+            $this->isAuthenticated = true;
+        }
     }
 }

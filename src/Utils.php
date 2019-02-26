@@ -20,7 +20,7 @@ class Utils
         return $ipAddressArray;
     }
 
-    public static  function getMacAddressArray(string $macAddress): array
+    public static function getMacAddressArray(string $macAddress): array
     {
         $macAddressArray = explode(':', $macAddress);
 
@@ -29,5 +29,16 @@ class Utils
         }
 
         return $macAddressArray;
+    }
+
+    public static function getLocalIp(): string
+    {
+        $s = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+
+        socket_connect($s ,'8.8.8.8', 53);
+        socket_getsockname($s, $localIp);
+        socket_close($s);
+
+        return $localIp;
     }
 }

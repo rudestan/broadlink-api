@@ -7,9 +7,6 @@ use BroadlinkApi\Packet\Packet;
 
 class Connection
 {
-    /**
-     * Timeout in seconds
-     */
     private const DEFAULT_TIMEOUT = 2;
 
     private $socket;
