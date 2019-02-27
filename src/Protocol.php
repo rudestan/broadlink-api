@@ -6,7 +6,6 @@ use BroadlinkApi\Command\CommandInterface;
 use BroadlinkApi\Command\EncryptedCommandInterface;
 use BroadlinkApi\Command\RawCommandInterface;
 use BroadlinkApi\Device\AuthenticatableDeviceInterface;
-use BroadlinkApi\Device\IdentifiedDeviceInterface;
 use BroadlinkApi\Exception\ProtocolException;
 use BroadlinkApi\Packet\PacketBuilder;
 

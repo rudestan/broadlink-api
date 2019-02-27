@@ -16,7 +16,7 @@ class RMDevice extends AbstractAuthenticatableDevice
      */
     public function enterLearning()
     {
-        $this->protocol->executeCommand(new EnterLearningCommand($this));
+        $this->protocol->executeCommand(new EnterLearningCommand($this))->current();
     }
 
     public function getLearnedCommand(): ?Packet
@@ -35,6 +35,6 @@ class RMDevice extends AbstractAuthenticatableDevice
      */
     public function sendIrCommand(Packet $packet)
     {
-        $this->protocol->executeCommand(new SendCommand($this, $packet));
+        $this->protocol->executeCommand(new SendCommand($this, $packet))->current();
     }
 }
