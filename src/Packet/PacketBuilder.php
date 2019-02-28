@@ -129,6 +129,22 @@ class PacketBuilder
         $this->writeInt16(self::PAYLOAD_CHECKSUM_ADDRESS, $checksum);
     }
 
+    public function extractFromIndex(int $start): Packet
+    {
+        $sliced = array_slice($this->packet->toArray(), $start);
+
+        return Packet::fromArray($sliced);
+    }
+
+    public function attachPacket(Packet $attachment): self
+    {
+        $idx = $this->packet->getSize();
+        $this->packet->setSize($this->packet->getSize() + $attachment->getSize());
+        $this->writeBytes($idx, array_reverse($attachment->toArray()));
+
+        return $this;
+    }
+
     public function attachPayload(Packet $payload): self
     {
         $endAddress = static::PAYLOAD_ADDRESS + $payload->count();

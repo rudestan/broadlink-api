@@ -11,4 +11,9 @@ class CheckLearnedCommand extends AbstractAuthenticatedDeviceCommand
     {
         return PacketBuilder::create(0x16)->writeByte(0x00, 0x04)->getPacket();
     }
+
+    public function handleResponse(Packet $packet)
+    {
+        return (new PacketBuilder($packet))->extractFromIndex(4);
+    }
 }
