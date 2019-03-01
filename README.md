@@ -9,7 +9,7 @@ Original code refer to: [ThePHPGuys/broadlink](https://github.com/ThePHPGuys/bro
 
 * Added full support of RM3 Pro Plus (learning mode, receiving and sending commands), so it became fully usable withing the api
 * Code was refactored and logic a bit simplified
-* Code was reformatted and cleaned a bit to be able to easily understand the flow
+* Code was reformatted and cleaned to be able to easily understand the flow
 
 ### Usage
 
@@ -85,4 +85,49 @@ An instance of ```Packet::class``` will be returned once the command will be rec
 
 #### Send command to the Device
 
-...
+After receiving a Packet from ```RMDevice::getLearnedCommad()``` it can be converted to an array
+by calling ```Packet::toArray()``` method. Converted array can easily be stored for example in json file
+or in the DB and later can be reused to reproduce this commmand with the Device. To send previously learned
+command the following code can be used:
+
+```php
+use BroadlinkApi\Exception\ProtocolException;
+
+try {
+    $device->sendIrCommand($command);
+} catch (ProtocolException $e) {
+    echo $e->getMessage();
+} 
+```
+
+#### Other usage example
+
+If the IP and Mac address of the device is already known (for example it was previously saved) as well
+as the command (eg. loaded from JSON) the device can be easily used to trigger this command. Possible code
+might look like the following:
+
+```php
+use BroadlinkApi\Device\Authenticatable\RMDevice;
+use BroadlinkApi\Exception\ProtocolException;
+use BroadlinkApi\Packet\Packet;
+
+// Let's assume that $commandJson is json encoded array with received command 
+$commandCode = json_decode($commandJson, true);
+$command = Packet::fromArray($commandCode);
+
+$rmDevice = new RMDevice('192.168.1.1', '77:0f:71:b9:5e:82');
+
+try {
+    $device->authenticate();
+    $device->sendIrCommand($command);
+} catch(ProtocolException $e) {
+    echo $e->getMessage();
+}
+```
+
+#### Use cases
+
+The following API can be used for example to connect Google Home or Alexa together with Broadlink RM Pro for example 
+through Raspberry PI as proxy hub. Or another way of usage can be creation of some web widget for Android instead of
+using limited official Broadlink Application. This API extends the limits of the Device and it becomes
+much more interesting.
