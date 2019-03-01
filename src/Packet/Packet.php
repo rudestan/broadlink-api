@@ -27,7 +27,7 @@ class Packet extends \SplFixedArray
         return static::fromArray(unpack('C*', $data));
     }
 
-    public static function fromArray(array $array, $save_indexes = null)
+    public static function fromArray($array, $save_indexes = null)
     {
         $obj = new static(count($array));
         $c = 0;
