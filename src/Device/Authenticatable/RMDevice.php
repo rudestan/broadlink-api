@@ -33,7 +33,7 @@ class RMDevice extends AbstractAuthenticatableDevice
     /**
      * @throws ProtocolException
      */
-    public function sendIrCommand(Packet $packet)
+    public function sendCommand(Packet $packet)
     {
         $this->protocol->executeCommand(new SendCommand($this, $packet))->current();
     }

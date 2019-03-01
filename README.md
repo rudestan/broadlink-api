@@ -94,7 +94,7 @@ command the following code can be used:
 use BroadlinkApi\Exception\ProtocolException;
 
 try {
-    $device->sendIrCommand($command);
+    $device->sendCommand($command);
 } catch (ProtocolException $e) {
     echo $e->getMessage();
 } 
@@ -119,7 +119,7 @@ $rmDevice = new RMDevice('192.168.1.1', '77:0f:71:b9:5e:82');
 
 try {
     $device->authenticate();
-    $device->sendIrCommand($command);
+    $device->sendCommand($command);
 } catch(ProtocolException $e) {
     echo $e->getMessage();
 }
