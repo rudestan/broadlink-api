@@ -87,7 +87,7 @@ An instance of ```Packet::class``` will be returned once the command will be rec
 
 After receiving a Packet from ```RMDevice::getLearnedCommad()``` it can be converted to an array
 by calling ```Packet::toArray()``` method. Converted array can easily be stored for example in json file
-or in the DB and later can be reused to reproduce this commmand with the Device. To send previously learned
+or in the DB and later can be reused to reproduce this command with the Device. To send previously learned
 command the following code can be used:
 
 ```php
