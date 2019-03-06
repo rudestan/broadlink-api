@@ -24,6 +24,11 @@ abstract class AbstractAuthenticatableDevice extends AbstractIdentifiedDevice im
         return $this->sessionId !== null;
     }
 
+    public function isAuthenticatable(): bool
+    {
+        return true;
+    }
+
     /**
      * @throws ProtocolException
      */

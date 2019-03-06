@@ -1,6 +1,6 @@
 <?php
 
-namespace BroadlinkApi\Device\Authenticatable;
+namespace BroadlinkApi\Device\Authenticatable\Rm;
 
 use BroadlinkApi\Command\Authenticated\CheckLearnedCommand;
 use BroadlinkApi\Command\Authenticated\EnterLearningCommand;
@@ -11,6 +11,11 @@ use BroadlinkApi\Exception\ProtocolException;
 
 class RMDevice extends AbstractAuthenticatableDevice
 {
+    public function getType(): string
+    {
+        return self::TYPE_RM;
+    }
+
     /**
      * @throws ProtocolException
      */

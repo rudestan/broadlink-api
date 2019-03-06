@@ -2,9 +2,11 @@
 
 namespace BroadlinkApi\Service;
 
-use BroadlinkApi\Device\Authenticatable\RMDeviceSensor;
-use BroadlinkApi\Device\Authenticatable\RMDevice;
-use BroadlinkApi\Device\AuthenticatableDeviceInterface;
+use BroadlinkApi\Device\Authenticatable\Rm\RMDeviceSensor;
+use BroadlinkApi\Device\Authenticatable\Rm\RMDevice;
+use BroadlinkApi\Device\Authenticatable\Sp\SP2Device;
+use BroadlinkApi\Device\Authenticatable\Sp\SPMiniOEM;
+use BroadlinkApi\Device\IdentifiedDeviceInterface;
 use BroadlinkApi\Device\UnknownIdentifiedDevice;
 
 class DeviceFactory
@@ -14,10 +16,12 @@ class DeviceFactory
     public const DEVICE_SP2 = 'SP2';
     public const DEVICE_HSP2 = 'Honeywell SP2';
     public const DEVICE_SPM = 'SPMini';
+    public const DEVICE_OEM_SP3 = 'SP3 (OEM)';
     public const DEVICE_SP3 = 'SP3';
+    public const DEVICE_SP3S = 'SP3S';
     public const DEVICE_SPM2 = 'SPMini2';
-    public const DEVICE_OEM_SPM = 'OEM branded SPMini';
-    public const DEVICE_OEM_SPM2 = 'OEM branded SPMini2';
+    public const DEVICE_OEM_SPM = 'SPMini (OEM)';
+    public const DEVICE_OEM_SPM2 = 'SPMini2 (OEM)';
     public const DEVICE_SPMP = 'SPMiniPlus';
     public const DEVICE_RM2 = 'RM2';
     public const DEVICE_RMM = 'RM Mini';
@@ -40,7 +44,10 @@ class DeviceFactory
         0x271a => self::DEVICE_HSP2,
         0x791a => self::DEVICE_HSP2,
         0x2720 => self::DEVICE_SPM,
+        0x7D00 => self::DEVICE_OEM_SP3,
         0x753e => self::DEVICE_SP3,
+        0x947a => self::DEVICE_SP3S,
+        0x9479 => self::DEVICE_SP3S,
         0x2728 => self::DEVICE_SPM2,
         0x2733 => self::DEVICE_OEM_SPM,
         0x273e => self::DEVICE_OEM_SPM,
@@ -63,7 +70,27 @@ class DeviceFactory
         0x2722 => self::DEVICE_S1AK,
     ];
 
-    private const RM_DEVICES_CLASS_MAP = [
+    private const DEVICES_CLASS_MAP = [
+        SP2Device::class => [
+            0x2711,
+            0x2719,
+            0x7919,
+            0x271a,
+            0x791a,
+            0x2720,
+            0x753e,
+            0x7D00,
+            0x947a,
+            0x9479,
+            0x2728,
+            0x273e,
+            0x7530,
+            0x7918,
+            0x2736,
+        ],
+        SPMiniOEM::class => [
+            0x2733,
+        ],
         RMDevice::class => [
             0x279d,
         ],
@@ -80,16 +107,20 @@ class DeviceFactory
         ]
     ];
 
-    public function create(string $ip, string $mac, int $deviceId, string $name): AuthenticatableDeviceInterface
+    public function create(string $ip, string $mac, int $deviceId, string $name): IdentifiedDeviceInterface
     {
         $class = $this->getDeviceClass($deviceId);
 
-        return new $class($ip, $mac, $deviceId, $name, $this->getModelByDeviceId($deviceId));
+        /** @var IdentifiedDeviceInterface $device */
+        $device = new $class($ip, $mac, $deviceId, $name, $this->getModelByDeviceId($deviceId));
+        $device->init();
+
+        return $device;
     }
 
     private function getDeviceClass(int $deviceId): ?string
     {
-        foreach (self::RM_DEVICES_CLASS_MAP as $class => $mapping) {
+        foreach (self::DEVICES_CLASS_MAP as $class => $mapping) {
             if (in_array($deviceId, $mapping)) {
                 return $class;
             }

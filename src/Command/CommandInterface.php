@@ -13,6 +13,8 @@ interface CommandInterface
 
     public const COMMAND_GET_INFO = 0x6a;
 
+    public const COMMAND_POWER = 0x66;
+
     public function getCommandId(): int;
 
     public function handleResponse(Packet $packet);

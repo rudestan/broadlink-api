@@ -6,7 +6,7 @@ use BroadlinkApi\Protocol;
 use BroadlinkApi\Cipher\CipherInterface;
 use BroadlinkApi\Cipher\Cipher;
 
-abstract class AbstractIdentifiedDevice implements NetDeviceInterface
+abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
 {
     /**
      * @var int|null
@@ -58,6 +58,8 @@ abstract class AbstractIdentifiedDevice implements NetDeviceInterface
         $this->protocol = new Protocol();
         $this->cipher = new Cipher(self::BASE_KEY, self::BASE_IV);
     }
+
+    public function init(): void {}
 
     public function getIp(): string
     {

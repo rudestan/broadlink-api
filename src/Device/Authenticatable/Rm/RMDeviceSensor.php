@@ -1,6 +1,6 @@
 <?php
 
-namespace BroadlinkApi\Device\Authenticatable;
+namespace BroadlinkApi\Device\Authenticatable\Rm;
 
 use BroadlinkApi\Command\Authenticated\GetSensorsCommand;
 use BroadlinkApi\Exception\ProtocolException;
