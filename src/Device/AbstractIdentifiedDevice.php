@@ -71,7 +71,7 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         return $this->mac;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->deviceId;
     }
@@ -81,12 +81,12 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         return self::DEFAULT_PORT;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getModel(): string
+    public function getModel(): ?string
     {
         return $this->model;
     }

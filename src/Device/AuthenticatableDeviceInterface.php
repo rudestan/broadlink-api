@@ -2,7 +2,7 @@
 
 namespace BroadlinkApi\Device;
 
-interface AuthenticatableDeviceInterface extends NetDeviceInterface
+interface AuthenticatableDeviceInterface extends IdentifiedDeviceInterface
 {
     public function getSessionId(): ?int;
 
