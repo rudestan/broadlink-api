@@ -204,7 +204,7 @@ class PacketBuilder
 
     public function setCommand(int $command): self
     {
-        return $this->writeByte(self::COMMAND_ADDRESS,$command);
+        return $this->writeByte(self::COMMAND_ADDRESS, $command);
     }
 
     public static function create(int $size): self

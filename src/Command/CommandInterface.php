@@ -15,6 +15,8 @@ interface CommandInterface
 
     public const COMMAND_POWER = 0x66;
 
+    public const COMMAND_SETUP = 0x14;
+
     public function getCommandId(): int;
 
     public function handleResponse(Packet $packet);

@@ -7,7 +7,6 @@ use BroadlinkApi\Command\Authenticated\Sp\NightLightState;
 use BroadlinkApi\Command\Authenticated\Sp\PowerCommand;
 use BroadlinkApi\Command\Authenticated\Sp\PowerStateCommand;
 use BroadlinkApi\Device\AbstractAuthenticatableDevice;
-use BroadlinkApi\Device\AuthenticatableDeviceInterface;
 
 /**
  * Nightlight - is a button on Smart Plug with built-in led. It might be useful if it is powered on during the night.

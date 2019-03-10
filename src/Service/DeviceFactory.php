@@ -4,7 +4,10 @@ namespace BroadlinkApi\Service;
 
 use BroadlinkApi\Device\Authenticatable\Rm\RMDeviceSensor;
 use BroadlinkApi\Device\Authenticatable\Rm\RMDevice;
+use BroadlinkApi\Device\Authenticatable\SC1Device;
 use BroadlinkApi\Device\Authenticatable\Sp\SP2Device;
+use BroadlinkApi\Device\Authenticatable\Sp\SP2RevIpDevice;
+use BroadlinkApi\Device\Authenticatable\Sp\SP3IpDevice;
 use BroadlinkApi\Device\Authenticatable\Sp\SPMiniOEM;
 use BroadlinkApi\Device\IdentifiedDeviceInterface;
 use BroadlinkApi\Device\UnknownIdentifiedDevice;
@@ -35,6 +38,7 @@ class DeviceFactory
     public const DEVICE_A1 = 'A1';
     public const DEVICE_MP1 = 'MP1';
     public const DEVICE_S1AK = 'S1 (SmartOne Alarm Kit)';
+    public const SC1 = 'SC1';
 
     public const KNOWN_DEVICES = [
         0 => self::DEVICE_SP1,
@@ -68,9 +72,13 @@ class DeviceFactory
         0x4EB5 => self::DEVICE_MP1,
         0x4EB7 => self::DEVICE_MP1,
         0x2722 => self::DEVICE_S1AK,
+        0x7547 => self::SC1,
     ];
 
     private const DEVICES_CLASS_MAP = [
+        SC1Device::class => [
+            0x7547,
+        ],
         SP2Device::class => [
             0x2711,
             0x2719,
@@ -88,7 +96,7 @@ class DeviceFactory
             0x7918,
             0x2736,
         ],
-        SPMiniOEM::class => [
+        SP2RevIpDevice::class => [
             0x2733,
         ],
         RMDevice::class => [
@@ -107,13 +115,23 @@ class DeviceFactory
         ]
     ];
 
-    public function create(string $ip, string $mac, int $deviceId, string $name): IdentifiedDeviceInterface
+    private $postDiscovery = false;
+
+    public function __construct($postDiscovery = false)
+    {
+        $this->postDiscovery = $postDiscovery;
+    }
+
+    public function create(string $ip, string $mac, int $deviceId, ?string $name = null): IdentifiedDeviceInterface
     {
         $class = $this->getDeviceClass($deviceId);
 
         /** @var IdentifiedDeviceInterface $device */
         $device = new $class($ip, $mac, $deviceId, $name, $this->getModelByDeviceId($deviceId));
-        $device->init();
+
+        if ($this->postDiscovery) {
+            $device->postDiscovery();
+        }
 
         return $device;
     }

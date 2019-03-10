@@ -30,3 +30,12 @@ class PowerCommand extends AbstractAuthenticatedDeviceCommand
         ;
     }
 }
+/*def set_power(self, state):
+    """Sets the power state of the smart plug."""
+    packet = bytearray(16)
+    packet[0] = 2
+    if self.check_nightlight():
+        packet[4] = 3 if state else 2
+    else:
+        packet[4] = 1 if state else 0
+    self.send_packet(0x6a, packet)*/

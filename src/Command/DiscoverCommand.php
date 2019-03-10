@@ -32,7 +32,7 @@ class DiscoverCommand implements RawCommandInterface
     public function __construct(NetDeviceInterface $device, string $localIp = null)
     {
         $this->device = $device;
-        $this->deviceFactory = new DeviceFactory();
+        $this->deviceFactory = new DeviceFactory(true);
 
         if($localIp === null) {
             $this->localIp = Utils::getLocalIp();

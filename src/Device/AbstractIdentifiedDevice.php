@@ -59,7 +59,7 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         $this->cipher = new Cipher(self::BASE_KEY, self::BASE_IV);
     }
 
-    public function init(): void {}
+    public function postDiscovery(): void {}
 
     public function getIp(): string
     {
@@ -71,7 +71,7 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         return $this->mac;
     }
 
-    public function getId(): ?int
+    public function getDeviceId(): ?int
     {
         return $this->deviceId;
     }
@@ -81,12 +81,12 @@ abstract class AbstractIdentifiedDevice implements IdentifiedDeviceInterface
         return self::DEFAULT_PORT;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getModel(): ?string
+    public function getModel(): string
     {
         return $this->model;
     }

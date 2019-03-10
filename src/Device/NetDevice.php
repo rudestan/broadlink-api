@@ -5,6 +5,7 @@ namespace BroadlinkApi\Device;
 use BroadlinkApi\Cipher\CipherInterface;
 use BroadlinkApi\Cipher\Cipher;
 use BroadlinkApi\Command\DiscoverCommand;
+use BroadlinkApi\Command\SetupCommand;
 use BroadlinkApi\Exception\CommandException;
 use BroadlinkApi\Exception\ProtocolException;
 use BroadlinkApi\Protocol;
@@ -66,5 +67,16 @@ final class NetDevice implements NetDeviceInterface
         }
 
         return $devices;
+    }
+
+    /**
+     * @throws ProtocolException
+     * @throws CommandException
+     */
+    public function setup(string $ssid, string $password, ?string $securityMode = SetupCommand::SECURITY_NONE): void
+    {
+        $setupCommand = new SetupCommand($this, $ssid, $password, $securityMode);
+
+        $this->protocol->executeSetupCommand($setupCommand);
     }
 }

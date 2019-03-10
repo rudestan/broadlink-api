@@ -31,7 +31,6 @@ class Protocol
 
         if ($command instanceof RawCommandInterface) {
             $rootPacketBuilder = new PacketBuilder($command->getPacket());
-
         } elseif ($command instanceof EncryptedCommandInterface) {
             $rootPacketBuilder = PacketBuilder::create(0x38);
             $rootPacketBuilder->writeInt16(0x28,$this->getPacketId());
@@ -72,6 +71,14 @@ class Protocol
 
             yield $command->handleResponse($packet);
         }
+    }
+
+    public function executeSetupCommand(RawCommandInterface $command)
+    {
+        $this->connection->sendPacketToDeviceArray(
+            $command->getPacket(),
+            $command->getDevice()
+        );
     }
 
     private function getPacketId()
