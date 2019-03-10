@@ -73,14 +73,6 @@ class Protocol
         }
     }
 
-    public function executeSetupCommand(RawCommandInterface $command)
-    {
-        $this->connection->sendPacketToDeviceArray(
-            $command->getPacket(),
-            $command->getDevice()
-        );
-    }
-
     private function getPacketId()
     {
         return random_int(0, 0xffff);
